@@ -1,48 +1,38 @@
 <html>
-
 <head>
-<title>Exemplo PHP</title>
+    <title>Questões de Concursos</title>
 </head>
 <body>
+    <?php
+    ini_set("display_errors", 1);
+    header('Content-Type: text/html; charset=iso-8859-1');
+    echo 'Versão Atual do PHP: ' . phpversion() . '<br>';
 
-<?php
-ini_set("display_errors", 1);
-header('Content-Type: text/html; charset=iso-8859-1');
+    $servername = "54.234.153.24";
+    $username = "root";
+    $password = "Senha123";
+    $database = "meubanco";
 
+    // Criar conexão
+    $link = new mysqli($servername, $username, $password, $database);
 
+    // Verificar conexão
+    if (mysqli_connect_errno()) {
+        printf("Conexão falhou: %s\n", mysqli_connect_error());
+        exit();
+    }
 
-echo 'Versao Atual do PHP: ' . phpversion() . '<br>';
+    // Exemplo de questões
+    $questoes = [
+        ["id" => 1, "pergunta" => "Qual é a capital do Brasil?", "resposta" => "Brasília"],
+        ["id" => 2, "pergunta" => "Quem descobriu o Brasil?", "resposta" => "Pedro Álvares Cabral"],
+        ["id" => 3, "pergunta" => "Qual é a fórmula da água?", "resposta" => "H2O"]
+    ];
 
-$servername = "54.234.153.24";
-$username = "root";
-$password = "Senha123";
-$database = "meubanco";
-
-// Criar conexão
-
-
-$link = new mysqli($servername, $username, $password, $database);
-
-/* check connection */
-if (mysqli_connect_errno()) {
-    printf("Connect failed: %s\n", mysqli_connect_error());
-    exit();
-}
-
-$valor_rand1 =  rand(1, 999);
-$valor_rand2 = strtoupper(substr(bin2hex(random_bytes(4)), 1));
-$host_name = gethostname();
-
-
-$query = "INSERT INTO dados (AlunoID, Nome, Sobrenome, Endereco, Cidade, Host) VALUES ('$valor_rand1' , '$valor_rand2', '$valor_rand2', '$valor_rand2', '$valor_rand2','$host_name')";
-
-
-if ($link->query($query) === TRUE) {
-  echo "New record created successfully";
-} else {
-  echo "Error: " . $link->error;
-}
-
-?>
+    foreach ($questoes as $questao) {
+        echo "<p><strong>Questão {$questao['id']}:</strong> {$questao['pergunta']}<br>";
+        echo "<em>Resposta:</em> {$questao['resposta']}</p>";
+    }
+    ?>
 </body>
 </html>
